@@ -84,4 +84,30 @@ TW_BRIGHTNESS_PATH := "/sys/devices/virtual/lcd/panel/panel/brightness"
 TW_NEW_ION_HEAP := true
 TW_MAX_BRIGHTNESS := 255
 #TW_BOARD_CUSTOM_GRAPHICS := ../../../device/samsung/o7prolte/recovery/graphics.c
+TW_INPUT_BLACKLIST := "hbtp_vm"
 
+# MultiROM
+TARGET_RECOVERY_IS_MULTIROM := true
+MR_NO_KEXEC := 2
+MR_ALLOW_NKK71_NOKEXEC_WORKAROUND := true
+MR_CONTINUOUS_FB_UPDATE := true
+MR_DPI := xhdpi
+MR_DPI_FONT := 340
+MR_USE_MROM_FSTAB := true
+MR_FSTAB := device/samsung/o7prolte/multirom/mrom.fstab
+MR_INPUT_TYPE := type_b
+MR_INIT_DEVICES := device/samsung/o7prolte/multirom/mr_init_devices.c
+MR_KEXEC_MEM_MIN := 0x0x8c300000
+MR_KEXEC_DTB := true
+MR_DEVICE_HOOKS := device/samsung/o7prolte/multirom/mr_hooks.c
+MR_DEVICE_HOOKS_VER := 4
+MR_USE_QCOM_OVERLAY := true
+MR_QCOM_OVERLAY_HEADER := device/samsung/o7prolte/multirom/mr_qcom_overlay.h
+MR_QCOM_OVERLAY_CUSTOM_PIXEL_FORMAT := MDP_RGBX_8888
+# BootMenu
+DEVICE_RESOLUTION := 720x1280
+MR_PIXEL_FORMAT := "RGBA_8888"
+RECOVERY_GRAPHICS_USE_LINELENGTH := true
+MR_DEV_BLOCK_BOOTDEVICE := true
+MR_DEVICE_SPECIFIC_VERSION := b
+MR_POPULATE_BY_NAME_PATH := "/dev/block/bootdevice/by-name"
