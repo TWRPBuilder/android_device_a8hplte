@@ -12,20 +12,19 @@ const char *mr_init_devices[] =
     "/sys/devices/virtual/graphics/fb0",
     "/sys/devices/virtual/graphics/fb1",
 
-    "/sys/block/sda/*",
+    "/sys/block/*",
     "/sys/block/sde/*",
 
     // boot and data
-    "/sys/block/sde/sde18", //boot
-    "/sys/block/sda/sda9", //data
+    "/dev/block/mmcblk0p16", //boot
+    "/dev/block/mmcblk0p27", //data
 
     // system and cache
-    "/sys/block/sde/sde19", //system
-    "/sys/block/sda/sda3", //cache
+    "/dev/block/mmcblk0p25", //system
+    "/dev/block/mmcblk0p26", //cache
 
-    // Mount persist and firmware
-    "/sys/block/sda/sda2", // persist
-    "/sys/block/sde/sde12", // firmware
+    // Mount persist
+    "/dev/block/mmcblk0p22", // persist
 
     "/sys/bus/mmc*",
     "/sys/bus/mmc/drivers/mmcblk",
@@ -41,7 +40,9 @@ const char *mr_init_devices[] =
     "/sys/devices/virtual/input/input0",
     "/sys/devices/virtual/input/input1",
     "/sys/devices/virtual/input/input2",
+    "/sys/devices/virtual/input/input3",
     "/sys/devices/virtual/input/input4",
+    "/sys/devices/virtual/input/input5",
     "/sys/devices/virtual/misc/uinput",
     "/sys/devices/soc/soc:gpio_keys/input/input5",
     "/sys/bus/platform/devices/soc:gpio_keys/input/input5"
@@ -64,11 +65,6 @@ const char *mr_init_devices[] =
     "/sys/class/android_usb/android0/f_adb",
     "/sys/bus/platform/drivers/android_usb",
     "/sys/bus/usb",
-
-    // USB Drive
-    "/sys/bus/platform/drivers/xhci-hcd*",
-    "/sys/block/sda/sda1",
-
 
     // for qualcomm overlay - /dev/ion
     "/sys/devices/virtual/misc/ion",

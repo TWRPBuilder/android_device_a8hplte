@@ -16,15 +16,3 @@
 $(call inherit-product, build/target/product/full_base_telephony.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
-# Path to overlay files
-DEVICE_PACKAGE_OVERLAYS += device/samsung/o7prolte/overlay
-
-# Files needed for recovery image
-PRODUCT_COPY_FILES += \
-device/samsung/o7prolte/recovery/sbin/charge_recovery:/recovery/root/sbin/charge_recovery \
-device/samsung/o7prolte/recovery/sbin/rmt_storage_recovery:/recovery/root/sbin/rmt_storage_recovery \
-device/samsung/o7prolte/recovery/sbin/rmt_oeminfo_recovery:/recovery/root/sbin/rmt_oeminfo_recovery \
-device/samsung/o7prolte/recovery/sbin/linker:/recovery/root/sbin/linker \
-device/samsung/o7prolte/recovery/sbin/charge.sh:/recovery/root/sbin/charge.sh \
-device/samsung/o7prolte/recovery/tp/1191601.img:root/tp/1191601.img \
-#device/samsung/o7prolte/recovery/init.recovery.qcom.rc:root/init.recovery.qcom.rc \

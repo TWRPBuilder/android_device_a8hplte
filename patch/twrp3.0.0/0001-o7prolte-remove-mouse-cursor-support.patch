@@ -1,0 +1,159 @@
+From 2d73658ed80c661affc6603809fd714a8cb08d97 Mon Sep 17 00:00:00 2001
+From: grace5921 <androidlover5842@gmail.com>
+Date: Sat, 4 Mar 2017 15:43:03 +0530
+Subject: [PATCH] o7prolte: remove mouse cursor support
+
+it breaks on our device so better to remove it
+---
+ gui/Android.mk |  1 -
+ gui/gui.cpp    | 17 ++---------------
+ gui/pages.cpp  | 37 -------------------------------------
+ 3 files changed, 2 insertions(+), 53 deletions(-)
+
+diff --git a/gui/Android.mk b/gui/Android.mk
+index 56dc3477..7f8db084 100644
+--- a/gui/Android.mk
++++ b/gui/Android.mk
+@@ -25,7 +25,6 @@ LOCAL_SRC_FILES := \
+     input.cpp \
+     blanktimer.cpp \
+     partitionlist.cpp \
+-    mousecursor.cpp \
+     scrolllist.cpp \
+     patternpassword.cpp \
+     textbox.cpp \
+diff --git a/gui/gui.cpp b/gui/gui.cpp
+index 4c2c74b4..5de6b5df 100644
+--- a/gui/gui.cpp
++++ b/gui/gui.cpp
+@@ -302,19 +302,13 @@ void InputHandler::process_EV_KEY(input_event& ev)
+ 	// Left mouse button is treated as a touch
+ 	if(ev.code == BTN_LEFT)
+ 	{
+-		MouseCursor *cursor = PageManager::GetMouseCursor();
+-		if(ev.value == 1)
+-		{
+-			cursor->GetPos(x, y);
+-			doTouchStart();
+-		}
+-		else if(touch_status)
++
++		if(touch_status)
+ 		{
+ 			// Left mouse button was previously pressed and now is
+ 			// being released so send a TOUCH_RELEASE
+ 			if (state == AS_IN_ACTION_AREA)
+ 			{
+-				cursor->GetPos(x, y);
+ 
+ 				LOGEVENT("Mouse TOUCH_RELEASE: %d,%d\n", x, y);
+ 				PageManager::NotifyTouch(TOUCH_RELEASE, x, y);
+@@ -364,15 +358,8 @@ void InputHandler::process_EV_KEY(input_event& ev)
+ void InputHandler::process_EV_REL(input_event& ev)
+ {
+ 	// Mouse movement
+-	MouseCursor *cursor = PageManager::GetMouseCursor();
+-	LOGEVENT("EV_REL %d %d\n", ev.code, ev.value);
+-	if(ev.code == REL_X)
+-		cursor->Move(ev.value, 0);
+-	else if(ev.code == REL_Y)
+-		cursor->Move(0, ev.value);
+ 
+ 	if(touch_status) {
+-		cursor->GetPos(x, y);
+ 		LOGEVENT("Mouse TOUCH_DRAG: %d, %d\n", x, y);
+ 		key_status = KS_NONE;
+ 	}
+diff --git a/gui/pages.cpp b/gui/pages.cpp
+index cfe30677..196ee37e 100644
+--- a/gui/pages.cpp
++++ b/gui/pages.cpp
+@@ -65,7 +65,6 @@ extern std::vector<std::string> gConsoleColor;
+ 
+ std::map<std::string, PageSet*> PageManager::mPageSets;
+ PageSet* PageManager::mCurrentSet;
+-MouseCursor *PageManager::mMouseCursor = NULL;
+ HardwareKeyboard *PageManager::mHardwareKeyboard = NULL;
+ bool PageManager::mReloadTheme = false;
+ std::string PageManager::mStartPage = "main";
+@@ -823,11 +822,6 @@ int PageSet::Load(ZipArchive* package, char* xmlFile, char* languageFile, char*
+ 	if (child)
+ 		LoadVariables(child);
+ 
+-	LOGINFO("Loading mouse cursor...\n");
+-	child = parent->first_node("mousecursor");
+-	if(child)
+-		PageManager::LoadCursorData(child);
+-
+ 	LOGINFO("Loading pages...\n");
+ 	// This may be NULL if no templates are present
+ 	xmltemplate = parent->first_node("templates");
+@@ -916,11 +910,6 @@ int PageSet::CheckInclude(ZipArchive* package, xml_document<> *parentDoc)
+ 		if (child)
+ 			LoadVariables(child);
+ 
+-		LOGINFO("Loading mouse cursor...\n");
+-		child = parent->first_node("mousecursor");
+-		if(child)
+-			PageManager::LoadCursorData(child);
+-
+ 		LOGINFO("Loading included pages...\n");
+ 		// This may be NULL if no templates are present
+ 		xmltemplate = parent->first_node("templates");
+@@ -1484,9 +1473,6 @@ int PageManager::ReloadPackage(std::string name, std::string package)
+ 	if (iter == mPageSets.end())
+ 		return -1;
+ 
+-	if(mMouseCursor)
+-		mMouseCursor->ResetData(gr_fb_width(), gr_fb_height());
+-
+ 	PageSet* set = (*iter).second;
+ 	mPageSets.erase(iter);
+ 
+@@ -1606,8 +1592,6 @@ int PageManager::Render(void)
+ 		return 0;
+ 
+ 	int res = (mCurrentSet ? mCurrentSet->Render() : -1);
+-	if(mMouseCursor)
+-		mMouseCursor->Render();
+ 	return res;
+ }
+ 
+@@ -1635,21 +1619,6 @@ xml_node<>* PageManager::FindStyle(std::string name)
+ 	return NULL;
+ }
+ 
+-MouseCursor *PageManager::GetMouseCursor()
+-{
+-	if(!mMouseCursor)
+-		mMouseCursor = new MouseCursor(gr_fb_width(), gr_fb_height());
+-	return mMouseCursor;
+-}
+-
+-void PageManager::LoadCursorData(xml_node<>* node)
+-{
+-	if(!mMouseCursor)
+-		mMouseCursor = new MouseCursor(gr_fb_width(), gr_fb_height());
+-
+-	mMouseCursor->LoadData(node);
+-}
+-
+ int PageManager::Update(void)
+ {
+ 	if(blankTimer.isScreenOff())
+@@ -1660,12 +1629,6 @@ int PageManager::Update(void)
+ 
+ 	int res = (mCurrentSet ? mCurrentSet->Update() : -1);
+ 
+-	if(mMouseCursor)
+-	{
+-		int c_res = mMouseCursor->Update();
+-		if(c_res > res)
+-			res = c_res;
+-	}
+ 	return res;
+ }
+ 
+-- 
+2.11.0
+
