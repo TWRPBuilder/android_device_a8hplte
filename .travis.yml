@@ -15,23 +15,21 @@ before_script:
 - cd $HOME
 - tar -xvf twrp.tar.xz &> /dev/null
 - mv $HOME/twrp-6.0 $HOME/twrp
-
 script:
 - cd $HOME/twrp
 - rm -rf bootable/recovery
 - git clone https://github.com/omnirom/android_bootable_recovery.git bootable/recovery
 - git clone https://github.com/Grace5921/android_kernel_samsung_a8hplte.git kernel/$brand/$code_name
 - git clone https://github.com/$repo device/$brand/$code_name
-- . build/envsetup.sh ; lunch omni_$code_name-eng
+- ". build/envsetup.sh ; lunch omni_$code_name-eng"
 - make -j4 recoveryimage
 - cd out/target/product/$code_name/
 - tar -H ustar -c recovery.img > recovery.tar
-
 deploy:
   skip_cleanup: true
   provider: releases
   api_key:
-    secure: RYVdvOfn3LWPXf1WoDg01VL9bcK20JRUwpQCf6ZGRPL04gFffwvaLoTuGTBG93osY2jmE3LgAcItGTwwqs7fjIhPofYhmQ8Sx7L8Ez6g+boJ7aozuxqLpZRZvk6Ed2jA8KsZJJQeVu3wCsRWxBoQ8C4np3lrtXfH7PgZo8EAp3JARjZhlyVztFMOEjPCCb+crGTiCfhh/QdrpIl5AcpKoJTMCxM//ZBsamxiixBTMjOq0UDb2PyAKstWFcxZHGdYvTCluLtSc6fo7KoHcpWeiCZX71OLLFU+yfMRQm3/qnNdVqzkzSaMwyF2yOD0VNp0UVCxYyv2DF3BtT4H/bog6vgbBRjo+UhGqdNOV3j9WpipFzEkme3Q9mqztAzId0/CeotDYz+0MDHxSklLHMosAK9EB9hCgJBDOQzTjUYw21LbF42CQ1AwX2wDwczJ3KtKUWrZBdjTojiRLxY2feYhgSxGlUn4i2cZ7uATraaJevxMZ39GkK8PLwS6pb/RxGApPXNZXg23uTKYjTxa2ML5mSJTeoO17Hz8KSDwd9qkAv5495Rlr3mzDCtl1bhlnrOPpmPtaH/wdnDEw+6K+ejoZwZdHRsF9rJJ905jzaW59kKkQZGAFka3YSLzEvGbNJvNxqZ3tIy+r7jFEneR5uMgD4h+znONGPUpEFn/XtRAOt4=
+    secure: MpQF0DMUYLk4+iJLrELSc65cCwFT71TASo3aCPwYDiqzbGfONIgPaFMSKYQdcJxxGLjIVHXL0TKGcJ/stVTaRxiz8yI0wD1rDBGlmAn2JN8dr9b+hBnEyaG8xZPEnIYIUc+TLdrdS5xsrOsn16sOAEyaSZA0m8BvwC4tR37SwCpaen1ePSEDPTnRjraI22feNltivbH5IAibnUaZcvpHF8LQxVFqgAy36pLfxzSZBT0+FsB9p4VJGJmA2ckHadYxexRvp2gHAQdi5pFTnYiX4kyDF57Hao0PMFJ8YvyhUs3R8MrpfEX2iAsrTMCsbY4IpT1ulRyNKUlCwr0AGCDTt6VkTziGHY9NMvI97lMT5uB9V3t/TTDmrGR7bVASnevmyJ/9zwiBhAIqj6Ah4V9QI3I7eHkMakfofg0T03jk5I+6Z+OZ5eYjMh9TKXMow98OtH4TDk5HABKH0ZdI1FfDuwK+rRFn50pzs8hTpD5aXf7Xex8tAmTBEXWRx1NxTYlthxNT0BBWftS52MF3IKYviPnUsQb4ZcHlKRVUV6yxajSM81/5bljONREsfZXW1K51QEvfkm/g+XPF0b8R2x+QaT9z5Jx1zDC7ibOxiMMfJd1x9GG2YxpcT0ayG9nFp4OV8vLxTicfLzBi7255BUvDJvpiBQV88D0cHv2zxLi9AEU=
   file:
     - recovery.tar
     - recovery.img
