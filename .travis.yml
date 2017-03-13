@@ -19,7 +19,7 @@ script:
 - cd $HOME/twrp
 - rm -rf bootable/recovery
 - git clone https://github.com/omnirom/android_bootable_recovery.git bootable/recovery
-- git clone https://github.com/Grace5921/android_kernel_samsung_a8hplte.git kernel/$brand/$code_name
+- git clone https://github.com/TwrpBuilder/android_kernel_a8hplte.git kernel/$brand/$code_name
 - git clone https://github.com/$repo device/$brand/$code_name
 - ". build/envsetup.sh ; lunch omni_$code_name-eng"
 - make -j4 recoveryimage
