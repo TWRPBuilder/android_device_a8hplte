@@ -15,13 +15,13 @@
 #
 
 # Platform
-TARGET_BOOTLOADER_BOARD_NAME := o7prolte
+TARGET_BOOTLOADER_BOARD_NAME := a8hplte
 TARGET_NO_BOOTLOADER := true
 TARGET_NO_RADIOIMAGE := true
 
 # Architecture
 TARGET_ARCH := arm
-TARGET_BOARD_PLATFORM := msm8916
+TARGET_BOARD_PLATFORM := msm8939
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno200
 TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
@@ -51,10 +51,10 @@ BOARD_UMS_LUNFILE := "/sys/class/android_usb/android0/f_mass_storage/lun%d/file"
 BOARD_HAS_NO_SELECT_BUTTON := true
 TW_NO_REBOOT_BOOTLOADER := true
 TW_HAS_DOWNLOAD_MODE := true
-TARGET_KERNEL_SOURCE := kernel/samsung/o7prolte
-TARGET_KERNEL_CONFIG := o7prolte_defconfig
-TARGET_RECOVERY_FSTAB := device/samsung/o7prolte/recovery.fstab
-BOARD_CUSTOM_BOOTIMG_MK := device/samsung/o7prolte/mkbootimg.mk
+TARGET_KERNEL_SOURCE := kernel/samsung/a8hplte
+TARGET_KERNEL_CONFIG := a8hplte_defconfig
+TARGET_RECOVERY_FSTAB := device/samsung/a8hplte/recovery.fstab
+BOARD_CUSTOM_BOOTIMG_MK := device/samsung/a8hplte/mkbootimg.mk
 BOARD_HAS_LARGE_FILESYSTEM := true
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
@@ -65,28 +65,3 @@ TW_BRIGHTNESS_PATH := "/sys/devices/virtual/lcd/panel/panel/brightness"
 TW_NEW_ION_HEAP := true
 TW_MAX_BRIGHTNESS := 255
 TW_INPUT_BLACKLIST := "hbtp_vm"
-
-# MultiROM
-TARGET_RECOVERY_IS_MULTIROM := true
-MR_NO_KEXEC := 2
-MR_ALLOW_NKK71_NOKEXEC_WORKAROUND := true
-MR_CONTINUOUS_FB_UPDATE := true
-MR_DPI := xhdpi
-MR_DPI_FONT := 340
-MR_USE_MROM_FSTAB := true
-MR_FSTAB := device/samsung/o7prolte/multirom/mrom.fstab
-MR_INPUT_TYPE := type_b
-MR_INIT_DEVICES := device/samsung/o7prolte/multirom/mr_init_devices.c
-MR_KEXEC_MEM_MIN := 0x0x8c300000
-MR_KEXEC_DTB := true
-MR_DEVICE_HOOKS := device/samsung/o7prolte/multirom/mr_hooks.c
-MR_DEVICE_HOOKS_VER := 4
-MR_USE_QCOM_OVERLAY := true
-MR_QCOM_OVERLAY_HEADER := device/samsung/o7prolte/multirom/mr_qcom_overlay.h
-MR_QCOM_OVERLAY_CUSTOM_PIXEL_FORMAT := MDP_RGBX_8888
-# BootMenu
-MR_PIXEL_FORMAT := "RGBA_8888"
-RECOVERY_GRAPHICS_USE_LINELENGTH := true
-MR_DEV_BLOCK_BOOTDEVICE := true
-MR_DEVICE_SPECIFIC_VERSION := b
-MR_POPULATE_BY_NAME_PATH := "/dev/block/bootdevice/by-name"

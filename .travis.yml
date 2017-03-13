@@ -1,0 +1,40 @@
+language: java
+jdk:
+- openjdk7
+sudo: required
+before_script:
+- export repo="TwrpBuilder/android_device_a8hplte"
+- export brand="samsung"
+- export code_name="a8hplte"
+- sudo apt-get install -y lzop git-core gnupg flex bison gperf build-essential zip
+  zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev
+  libx11-dev lib32z-dev ccache libgl1-mesa-dev libxml2-utils xsltproc unzip maven
+  schedtool &> /dev/null
+- wget https://github.com/TwrpBuilder/twrp-5.1.1-source/releases/download/6.0/twrp-6.0-20170203-no-repo.tar.xz
+  -O $HOME/twrp.tar.xz
+- cd $HOME
+- tar -xvf twrp.tar.xz &> /dev/null
+- mv $HOME/twrp-6.0 $HOME/twrp
+
+script:
+- cd $HOME/twrp
+- rm -rf bootable/recovery
+- git clone https://github.com/omnirom/android_bootable_recovery.git bootable/recovery
+- git clone https://github.com/Grace5921/android_kernel_samsung_a8hplte.git kernel/$brand/$code_name
+- git clone https://github.com/$repo device/$brand/$code_name
+- . build/envsetup.sh ; lunch omni_$code_name-eng
+- make -j4 recoveryimage
+- cd out/target/product/$code_name/
+- tar -H ustar -c recovery.img > recovery.tar
+
+deploy:
+  skip_cleanup: true
+  provider: releases
+  api_key:
+    secure: RYVdvOfn3LWPXf1WoDg01VL9bcK20JRUwpQCf6ZGRPL04gFffwvaLoTuGTBG93osY2jmE3LgAcItGTwwqs7fjIhPofYhmQ8Sx7L8Ez6g+boJ7aozuxqLpZRZvk6Ed2jA8KsZJJQeVu3wCsRWxBoQ8C4np3lrtXfH7PgZo8EAp3JARjZhlyVztFMOEjPCCb+crGTiCfhh/QdrpIl5AcpKoJTMCxM//ZBsamxiixBTMjOq0UDb2PyAKstWFcxZHGdYvTCluLtSc6fo7KoHcpWeiCZX71OLLFU+yfMRQm3/qnNdVqzkzSaMwyF2yOD0VNp0UVCxYyv2DF3BtT4H/bog6vgbBRjo+UhGqdNOV3j9WpipFzEkme3Q9mqztAzId0/CeotDYz+0MDHxSklLHMosAK9EB9hCgJBDOQzTjUYw21LbF42CQ1AwX2wDwczJ3KtKUWrZBdjTojiRLxY2feYhgSxGlUn4i2cZ7uATraaJevxMZ39GkK8PLwS6pb/RxGApPXNZXg23uTKYjTxa2ML5mSJTeoO17Hz8KSDwd9qkAv5495Rlr3mzDCtl1bhlnrOPpmPtaH/wdnDEw+6K+ejoZwZdHRsF9rJJ905jzaW59kKkQZGAFka3YSLzEvGbNJvNxqZ3tIy+r7jFEneR5uMgD4h+znONGPUpEFn/XtRAOt4=
+  file:
+    - recovery.tar
+    - recovery.img
+  on:
+    repo: $repo
+    branch: android-6.0
